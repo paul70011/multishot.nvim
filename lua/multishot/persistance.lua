@@ -1,8 +1,10 @@
 local M = {}
 
+local data_path = vim.fn.stdpath("data")
+local cache_config = string.format("%s/multishot.json", data_path)
 
 function M.save(table)
-    local file = io.open('multishot.json', 'w')
+    local file = io.open(cache_config, 'w')
     if file then
         file:write(vim.json.encode(table))
         file:close()
@@ -13,7 +15,7 @@ end
 
 
 function M.load()
-    local file = io.open('multishot.json', 'r')
+    local file = io.open(cache_config, 'r')
     if file then
         local contents = file:read('*a')
         file:close()

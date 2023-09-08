@@ -14,9 +14,10 @@ function M.add_file(list_idx)
     local working_dir = vim.fn.getcwd()
     local relative_path = string.gsub(full_path, working_dir .. '/', '')
 
-    Files[list_idx] = Files[list_idx] or {}
+    Files[working_dir] = Files[working_dir] or {}
+    Files[working_dir][list_idx] = Files[working_dir][list_idx] or {}
 
-    table.insert(Files[list_idx], {
+    table.insert(Files[working_dir][list_idx], {
         path = relative_path,
     })
 
@@ -25,6 +26,8 @@ end
 
 
 function M.open_file(list_idx, file_idx)
+    local working_dir = vim.fn.getcwd()
+
     if not list_idx then
         error('Multishot: list_idx is required')
     end
@@ -33,7 +36,12 @@ function M.open_file(list_idx, file_idx)
         error('Multishot: file_idx is required')
     end
 
-    local list = Files[list_idx]
+    local project = Files[working_dir]
+    if not project then
+        return
+    end
+
+    local list = project[list_idx]
     if not list then
         return
     end
