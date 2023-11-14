@@ -6,8 +6,8 @@ local M = {}
 local function create_window(content)
     local ui = vim.api.nvim_list_uis()[1]
 
-    local width = 60
-    local height = 10
+    local width = math.floor(ui.width)
+    local height = 20
 
     local opts = {
         relative = "editor",
